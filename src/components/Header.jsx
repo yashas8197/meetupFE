@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div className="bg-body-tertiary">
       <nav class="navbar container">
         <div class="container-fluid">
-          <a class="navbar-brand">
+          <Link to="/" class="navbar-brand">
             <svg
               viewBox="0 0 111 40"
               xmlns="http://www.w3.org/2000/svg"
@@ -17,15 +18,7 @@ const Header = () => {
                 fillRule="evenodd"
               ></path>
             </svg>
-          </a>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </form>
+          </Link>
         </div>
       </nav>
     </div>

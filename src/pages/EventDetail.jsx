@@ -10,7 +10,6 @@ const EventDetail = () => {
   const { data, loading, error } = useFetch(
     `http://localhost:3000/events/${eventId}`
   );
-  console.log(data);
 
   if (loading)
     return (

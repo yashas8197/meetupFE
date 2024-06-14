@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import EventCard from "../components/EventCard";
 import Hero from "../components/Hero";
 
 const Home = () => {
+  const [eventData, setEventData] = useState([]);
+  const [filterBySearch, setFilterBySearch] = useState("");
+  const [eventStatusType, setEventStatusType] = useState("Both");
+
   const { data, error, loading } = useFetch("http://localhost:3000/events");
 
-  if (loading)
+  useEffect(() => {
+    if (data && data.event) {
+      setEventData(data.event);
+    }
+  }, [data]);
+
+  if (loading || data === undefined)
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <div className="spinner-border text-danger" role="status">
@@ -15,27 +25,53 @@ const Home = () => {
       </div>
     );
 
+  const filteredData = eventData.filter((e) => {
+    const matchesEventType =
+      eventStatusType === "Both" || e.eventType === eventStatusType;
+    const matchesSearch = e.title
+      .toLowerCase()
+      .includes(filterBySearch.toLowerCase());
+    return matchesEventType && matchesSearch;
+  });
+
+  console.log(filteredData);
+
   return (
     <div className="container my-5">
       <Hero />
       <div className="d-flex justify-content-between">
-        <h1 className="w-75">Meetup Events</h1>
-        <div className="w-25">
-          <select className="form-select">
-            <option>Both</option>
-            <option>Online</option>
-            <option>Offline</option>
-          </select>
+        <h1 className="">Meetup Events</h1>
+        <div className="d-flex">
+          <div className="mx-3">
+            <select
+              onChange={(e) => setEventStatusType(e.target.value)}
+              className="form-select"
+            >
+              <option value="Both">Both</option>
+              <option value="Online">Online</option>
+              <option value="Offline">Offline</option>
+            </select>
+          </div>
+          <form
+            onChange={(e) => setFilterBySearch(e.target.value)}
+            role="search"
+          >
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search By Title"
+              aria-label="Search"
+            />
+          </form>
         </div>
       </div>
       <hr />
       <div className="row row-cols-1 row-cols-md-4 g-4">
-        {data &&
-          data.event.map((e) => (
-            <div key={e._id} className="col">
-              <EventCard e={e} />
-            </div>
-          ))}
+        {filteredData?.map((e) => (
+          <div key={e._id} className="col">
+            <EventCard e={e} />
+          </div>
+        ))}
       </div>
     </div>
   );
