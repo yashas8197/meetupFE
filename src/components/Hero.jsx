@@ -21,7 +21,10 @@ const Hero = () => {
           </button>
         </div>
         <div className="w-50 mx-5">
-          <img src="https://secure.meetupstatic.com/next/images/indexPage/irl_event.svg?w=384" />
+          <img
+            className="w-100"
+            src="https://secure.meetupstatic.com/next/images/indexPage/irl_event.svg?w=384"
+          />
         </div>
       </div>
     </div>

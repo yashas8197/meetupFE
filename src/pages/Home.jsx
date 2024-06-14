@@ -1,7 +1,7 @@
 import React from "react";
-import useFetch from "./utils/useFetch";
-import EventCard from "./components/EventCard";
-import Hero from "./components/Hero";
+import useFetch from "../utils/useFetch";
+import EventCard from "../components/EventCard";
+import Hero from "../components/Hero";
 
 const Home = () => {
   const { data, error, loading } = useFetch("http://localhost:3000/events");

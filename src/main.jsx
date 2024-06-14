@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "./Home.jsx";
+import Home from "./pages/Home.jsx";
+import EventDetail from "./pages/EventDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/event/:eventId",
+        element: <EventDetail />,
       },
     ],
   },
