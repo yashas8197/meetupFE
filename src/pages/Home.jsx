@@ -8,7 +8,9 @@ const Home = () => {
   const [filterBySearch, setFilterBySearch] = useState("");
   const [eventStatusType, setEventStatusType] = useState("Both");
 
-  const { data, error, loading } = useFetch("http://localhost:3000/events");
+  const { data, error, loading } = useFetch(
+    "https://meetup-be.vercel.app/events"
+  );
 
   useEffect(() => {
     if (data && data.event) {
