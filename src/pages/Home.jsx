@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../utils/useFetch";
 import EventCard from "../components/EventCard";
 import Hero from "../components/Hero";
+import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const [eventData, setEventData] = useState([]);
-  const [filterBySearch, setFilterBySearch] = useState("");
-  const [eventStatusType, setEventStatusType] = useState("Both");
+  // const [filterBySearch, setFilterBySearch] = useState("");
+  // const [eventStatusType, setEventStatusType] = useState("Both");
+
+  const [searchQuery, setSearchQuery] = useSearchParams({
+    filterBySearch: "",
+    eventStatusType: "Both",
+  });
+
+  const filterBySearch = searchQuery.get("filterBySearch");
+  const eventStatusType = searchQuery.get("eventStatusType");
 
   const { data, error, loading } = useFetch(
     "https://meetup-be.vercel.app/events"
@@ -46,7 +55,15 @@ const Home = () => {
         <div className="d-flex">
           <div className="mx-3">
             <select
-              onChange={(e) => setEventStatusType(e.target.value)}
+              onChange={(e) =>
+                setSearchQuery(
+                  (prev) => {
+                    prev.set("eventStatusType", e.target.value);
+                    return prev;
+                  },
+                  { replace: true }
+                )
+              }
               className="form-select"
             >
               <option value="Both">Both</option>
@@ -55,7 +72,15 @@ const Home = () => {
             </select>
           </div>
           <form
-            onChange={(e) => setFilterBySearch(e.target.value)}
+            onChange={(e) =>
+              setSearchQuery(
+                (prev) => {
+                  prev.set("filterBySearch", e.target.value);
+                  return prev;
+                },
+                { replace: true }
+              )
+            }
             role="search"
           >
             <input
